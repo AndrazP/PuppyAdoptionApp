@@ -15,22 +15,20 @@
  */
 package com.example.androiddevchallenge
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.core.view.WindowCompat
-import com.example.androiddevchallenge.ui.theme.MyTheme
+import androidx.activity.OnBackPressedDispatcher
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import com.example.androiddevchallenge.util.LocalBackDispatcher
+import com.example.androiddevchallenge.util.ProvideImageLoader
+import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+@Composable
+fun PuppyApp(backDispatcher: OnBackPressedDispatcher) {
 
-        // This app draws behind the system bars, so we want to handle fitting system windows
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-
-        setContent {
-            MyTheme {
-                PuppyApp(onBackPressedDispatcher)
+    CompositionLocalProvider(LocalBackDispatcher provides backDispatcher) {
+        ProvideWindowInsets {
+            ProvideImageLoader {
+                NavGraph()
             }
         }
     }
